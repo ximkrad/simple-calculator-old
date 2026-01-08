@@ -31,7 +31,7 @@ android.sdk = 34
 android.ndk = 25b
 
 # Архитектура (упростим для первой сборки)
-android.arch = armeabi-v7a
+android.arch = arm64-v8a,armeabi-v7a  # 64-bit + 32-bit
 
 # Ориентация
 orientation = portrait
@@ -91,5 +91,6 @@ build_dir = .buildozer
 
 # Папка для бинарников
 bin_dir = ./bin
+
 
 
