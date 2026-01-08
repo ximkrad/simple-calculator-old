@@ -30,7 +30,7 @@ android.arch = arm64-v8a
 # Orientation
 orientation = portrait
 fullscreen = 1
-window.size = 400, 700
+window.size = 2400, 1080
 
 # Build settings
 android.accept_sdk_license = True
@@ -38,4 +38,5 @@ android.allow_backup = True
 
 # Log level
 log_level = 2
+
 
