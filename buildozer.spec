@@ -1,96 +1,40 @@
 [app]
 
-# Название приложения
-title = Мой Календарь
-
-# Имя пакета (уникальное!)
+# App information
+title = My Calendar
 package.name = mycalendar
-
-# Домен пакета
 package.domain = com.example
 
-# Путь к исходникам
+# Source code
 source.dir = .
-
-# Основной файл
 source.main = main.py
 
-# Версия приложения
-version = 1.0.0
+# Version
+version = 1.0
 
-# Требования
-requirements = python3,kivy,pillow,kivyMD
+# Requirements (упростите!)
+requirements = python3,kivy==2.3.0
 
-# Разрешения для Android
+# Permissions
 android.permissions = INTERNET,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
 
-# Версия Android
+# Android settings
 android.minapi = 21
-android.targetapi = 34
-android.sdk = 34
+android.targetapi = 33
+android.sdk = 33
 android.ndk = 25b
 
-# Архитектура (упростим для первой сборки)
-android.arch = arm64-v8a,armeabi-v7a  # 64-bit + 32-bit
+# Architecture (БЕЗ КОММЕНТАРИЕВ В СТРОКЕ!)
+android.arch = arm64-v8a
 
-# Ориентация
+# Orientation
 orientation = portrait
-
-# Полноэкранный режим
 fullscreen = 0
-
-# Иконка (создайте или скачайте)
-# icon.filename = icon.png
-
-# Заставка при запуске
-# presplash.filename = presplash.png
-
-# Включить опцию для новых версий SDK
-android.enable_androidx = True
-
-# Разрешить бэкапы
-android.allow_backup = True
-
-# API ключи (опционально)
-# android.api_key = xxx
-# android.store_file = /path/to/.keystore
-# android.keyalias = mykeyalias
-
-# Дополнительные настройки
-log_level = 2
-android.accept_sdk_license = True
-
-# Размер окна (для эмулятора)
 window.size = 400, 700
 
-# Автоматически скрывать панель навигации
-android.hide_navigation_bar = False
+# Build settings
+android.accept_sdk_license = True
+android.allow_backup = True
 
-# Разрешить поворот экрана
-android.allow_rotation = True
-
-# Включить отладку
-android.debug = True
-
-# Включить мультидексы (для больших приложений)
-android.multidex = False
-
-# Создавать отчеты об ошибках
-android.create_error_report = True
-
-# Дополнительные аргументы для сборки
-# android.extra_cmake_args = -DANDROID_STL=c++_shared
-
-[buildozer]
-
-# Логи
+# Log level
 log_level = 2
-
-# Папка для сборки
-build_dir = .buildozer
-
-# Папка для бинарников
-bin_dir = ./bin
-
-
-
