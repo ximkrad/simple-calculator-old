@@ -13,9 +13,14 @@ import calendar
 import json
 import os
 from kivy.utils import get_color_from_hex
+from kivy.config import Config
+from kivy.metrics import dp
 
-# Настройки окна
-Window.size = (450, 700)
+if os.environ.get('KIVY_BUILD', '') == 'android':
+    Config.set('graphics', 'width', '400')
+    Config.set('graphics', 'height', '700')
+    Config.set('graphics', 'resizable', '0')
+    Config.set('kivy', 'exit_on_escape', '0')
 
 class DayButton(Button):
     """Кнопка дня"""
@@ -661,4 +666,5 @@ if __name__ == '__main__':
         with open('calendar_data.json', 'w', encoding='utf-8') as f:
             json.dump({}, f)
     
+
     CalendarApp().run()
