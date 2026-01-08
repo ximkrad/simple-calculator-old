@@ -27,7 +27,8 @@ android.permissions = INTERNET,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
 # Версия Android
 android.minapi = 21
 android.targetapi = 34
-android.sdk = 24
+android.sdk = 34
+android.ndk = 25b
 
 # Архитектура (упростим для первой сборки)
 android.arch = armeabi-v7a
@@ -90,4 +91,5 @@ build_dir = .buildozer
 
 # Папка для бинарников
 bin_dir = ./bin
+
 
