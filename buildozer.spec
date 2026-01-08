@@ -19,7 +19,7 @@ source.main = main.py
 version = 1.0.0
 
 # Требования
-requirements = python3,kivy
+requirements = python3,kivy,pillow,kivyMD
 
 # Разрешения для Android
 android.permissions = INTERNET,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
@@ -90,3 +90,4 @@ build_dir = .buildozer
 
 # Папка для бинарников
 bin_dir = ./bin
+
