@@ -30,9 +30,11 @@ class DayButton(Button):
         self.day_num = day_num
         self.is_current_month = is_current_month
         self.background_normal = ''
-        self.font_size = '16sp'
+        self.font_size = dp(18)  # Используем dp для масштабирования
         self.size_hint_y = None
-        self.height = 50
+        self.height = dp(60)  # Используем dp вместо фиксированных пикселей
+        self.halign = 'center'
+        self.valign = 'middle'
         
         # Настройка внешнего вида
         if not self.is_current_month:
@@ -47,7 +49,7 @@ class CalendarApp(App):
         # Создаем TabbedPanel для вкладок
         self.tabs = TabbedPanel(
             do_default_tab=False,
-            tab_width=200
+            tab_width=dp(200)  # Используем dp
         )
         
         # Вкладка 1: Календарь
@@ -71,23 +73,23 @@ class CalendarApp(App):
     def create_calendar_tab(self):
         """Создает вкладку календаря"""
         # Основной layout
-        calendar_layout = BoxLayout(orientation='vertical', padding=10, spacing=5)
+        calendar_layout = BoxLayout(orientation='vertical', padding=dp(10), spacing=dp(5))
         
         # Панель управления
-        control_panel = BoxLayout(size_hint_y=0.08, spacing=10)
+        control_panel = BoxLayout(size_hint_y=0.08, spacing=dp(10))
         
         self.current_date = datetime.now()
         self.month_label = Label(
             text=self.get_month_text(),
-            font_size='22sp',
+            font_size=dp(22),
             bold=True,
             size_hint_x=0.6
         )
         
-        prev_btn = Button(text="<", size_hint_x=0.2, font_size='18sp')
+        prev_btn = Button(text="<", size_hint_x=0.2, font_size=dp(20))
         prev_btn.bind(on_press=self.prev_month)
         
-        next_btn = Button(text=">", size_hint_x=0.2, font_size='18sp')
+        next_btn = Button(text=">", size_hint_x=0.2, font_size=dp(20))
         next_btn.bind(on_press=self.next_month)
         
         control_panel.add_widget(prev_btn)
@@ -97,16 +99,21 @@ class CalendarApp(App):
         calendar_layout.add_widget(control_panel)
         
         # Дни недели
-        days_layout = GridLayout(cols=7, size_hint_y=0.05)
+        days_layout = GridLayout(cols=7, size_hint_y=0.08, spacing=dp(2))
         days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
         for day in days:
-            lbl = Label(text=day, bold=True)
+            lbl = Label(text=day, bold=True, font_size=dp(16))
             days_layout.add_widget(lbl)
         
         calendar_layout.add_widget(days_layout)
         
         # Календарь
-        self.calendar_grid = GridLayout(cols=7, spacing=2, size_hint_y=None)
+        self.calendar_grid = GridLayout(
+            cols=7, 
+            spacing=dp(2), 
+            size_hint_y=None,
+            row_default_height=dp(70)  # Фиксированная высота строки
+        )
         self.calendar_grid.bind(minimum_height=self.calendar_grid.setter('height'))
         
         scroll = ScrollView(size_hint_y=0.75)
@@ -116,13 +123,17 @@ class CalendarApp(App):
         # Статус
         self.status_label = Label(
             text='Выберите день для редактирования',
-            size_hint_y=0.05,
-            font_size='14sp'
+            size_hint_y=0.06,
+            font_size=dp(14)
         )
         calendar_layout.add_widget(self.status_label)
         
         # Кнопка сегодня
-        today_btn = Button(text='Сегодня', size_hint_y=0.07)
+        today_btn = Button(
+            text='Сегодня', 
+            size_hint_y=0.08,
+            font_size=dp(16)
+        )
         today_btn.bind(on_press=self.go_to_today)
         calendar_layout.add_widget(today_btn)
         
@@ -131,24 +142,28 @@ class CalendarApp(App):
     def create_notes_tab(self):
         """Создает вкладку со всеми заметками"""
         # Основной layout
-        notes_layout = BoxLayout(orientation='vertical', padding=10, spacing=5)
+        notes_layout = BoxLayout(orientation='vertical', padding=dp(10), spacing=dp(5))
         
         # Заголовок
         self.notes_title = Label(
             text='Все заметки',
-            font_size='22sp',
+            font_size=dp(22),
             bold=True,
             size_hint_y=0.1
         )
         notes_layout.add_widget(self.notes_title)
         
         # Кнопки управления заметками
-        notes_control = BoxLayout(size_hint_y=0.08, spacing=10)
+        notes_control = BoxLayout(size_hint_y=0.08, spacing=dp(10))
         
-        refresh_btn = Button(text='Обновить')
+        refresh_btn = Button(text='Обновить', font_size=dp(16))
         refresh_btn.bind(on_press=self.refresh_notes)
         
-        clear_all_btn = Button(text='Очистить все', background_color=(0.9, 0.3, 0.3, 1))
+        clear_all_btn = Button(
+            text='Очистить все', 
+            background_color=(0.9, 0.3, 0.3, 1),
+            font_size=dp(16)
+        )
         clear_all_btn.bind(on_press=self.clear_all_notes)
         
         notes_control.add_widget(refresh_btn)
@@ -160,9 +175,9 @@ class CalendarApp(App):
         self.notes_scroll = ScrollView(size_hint_y=0.8)
         self.notes_container = BoxLayout(
             orientation='vertical',
-            spacing=5,
+            spacing=dp(5),
             size_hint_y=None,
-            padding=[5, 5, 5, 5]
+            padding=[dp(5), dp(5), dp(5), dp(5)]
         )
         self.notes_container.bind(minimum_height=self.notes_container.setter('height'))
         
@@ -173,7 +188,7 @@ class CalendarApp(App):
         self.notes_status = Label(
             text='Загрузка заметок...',
             size_hint_y=0.05,
-            font_size='12sp'
+            font_size=dp(14)
         )
         notes_layout.add_widget(self.notes_status)
         
@@ -218,7 +233,7 @@ class CalendarApp(App):
             for day in week:
                 if day == 0:
                     # Пустая ячейка
-                    self.calendar_grid.add_widget(Label(text=''))
+                    self.calendar_grid.add_widget(Label(text='', size_hint_y=None, height=dp(70)))
                 else:
                     date_str = f"{year:04d}-{month:02d}-{day:02d}"
                     
@@ -227,7 +242,9 @@ class CalendarApp(App):
                         date_str=date_str,
                         day_num=day,
                         is_current_month=True,
-                        text=str(day)
+                        text=str(day),
+                        size_hint_y=None,
+                        height=dp(70)  # Фиксированная высота
                     )
                     
                     # Проверяем есть ли заметка для этого дня
@@ -286,19 +303,19 @@ class CalendarApp(App):
         hex_color = self.color_to_hex(current_color)
         
         # Создаем контент попапа
-        content = BoxLayout(orientation='vertical', spacing=10, padding=20)
+        content = BoxLayout(orientation='vertical', spacing=dp(10), padding=dp(20))
         
         # Заголовок
         day_str = f"{self.selected_day[8:10]}.{self.selected_day[5:7]}.{self.selected_day[:4]}"
-        title = Label(text=f"День: {day_str}", font_size='18sp', bold=True)
+        title = Label(text=f"День: {day_str}", font_size=dp(20), bold=True)
         content.add_widget(title)
         
         # Цвета
-        color_label = Label(text="Выберите цвет:", font_size='14sp')
+        color_label = Label(text="Выберите цвет:", font_size=dp(16))
         content.add_widget(color_label)
         
         # Сетка цветов
-        colors_grid = GridLayout(cols=5, spacing=5, size_hint_y=None, height=150)
+        colors_grid = GridLayout(cols=5, spacing=dp(5), size_hint_y=None, height=dp(180))
         
         colors = [
             ('#FF6B6B', 'Красный'),
@@ -328,7 +345,9 @@ class CalendarApp(App):
         for hex_color_value, color_name in colors:
             color_btn = Button(
                 background_normal='',
-                background_color=get_color_from_hex(hex_color_value)
+                background_color=get_color_from_hex(hex_color_value),
+                size_hint_y=None,
+                height=dp(40)
             )
             color_btn.hex_color = hex_color_value
             color_btn.color_name = color_name
@@ -336,7 +355,7 @@ class CalendarApp(App):
             # Выделяем текущий цвет
             if hex_color_value == hex_color:
                 self.selected_color_btn = color_btn
-                color_btn.border = (2, 2, 2, 2)
+                color_btn.border = (dp(2), dp(2), dp(2), dp(2))
             
             color_btn.bind(on_press=self.on_color_select)
             colors_grid.add_widget(color_btn)
@@ -344,28 +363,37 @@ class CalendarApp(App):
         content.add_widget(colors_grid)
         
         # Заметка
-        note_label = Label(text="Заметка:", font_size='14sp')
+        note_label = Label(text="Заметка:", font_size=dp(16))
         content.add_widget(note_label)
         
         self.note_input = TextInput(
             text=current_note,
             multiline=True,
             size_hint_y=None,
-            height=100,
-            hint_text='Введите заметку...'
+            height=dp(120),
+            hint_text='Введите заметку...',
+            font_size=dp(16)
         )
         content.add_widget(self.note_input)
         
         # Кнопки
-        buttons_layout = BoxLayout(size_hint_y=None, height=50, spacing=10)
+        buttons_layout = BoxLayout(size_hint_y=None, height=dp(60), spacing=dp(10))
         
-        save_btn = Button(text='Сохранить', background_color=(0.2, 0.7, 0.3, 1))
+        save_btn = Button(
+            text='Сохранить', 
+            background_color=(0.2, 0.7, 0.3, 1),
+            font_size=dp(16)
+        )
         save_btn.bind(on_press=self.save_day_data)
         
-        cancel_btn = Button(text='Отмена')
+        cancel_btn = Button(text='Отмена', font_size=dp(16))
         cancel_btn.bind(on_press=lambda x: self.day_editor_popup.dismiss())
         
-        delete_btn = Button(text='Удалить', background_color=(0.8, 0.2, 0.2, 1))
+        delete_btn = Button(
+            text='Удалить', 
+            background_color=(0.8, 0.2, 0.2, 1),
+            font_size=dp(16)
+        )
         delete_btn.bind(on_press=self.delete_day_data)
         
         buttons_layout.add_widget(save_btn)
@@ -378,7 +406,7 @@ class CalendarApp(App):
         self.day_editor_popup = Popup(
             title='Редактирование дня',
             content=content,
-            size_hint=(0.9, 0.8),
+            size_hint=(0.9, 0.85),
             auto_dismiss=False
         )
         
@@ -392,7 +420,7 @@ class CalendarApp(App):
         if hasattr(self, 'selected_color_btn') and self.selected_color_btn:
             self.selected_color_btn.border = (0, 0, 0, 0)
         
-        instance.border = (2, 2, 2, 2)
+        instance.border = (dp(2), dp(2), dp(2), dp(2))
         self.selected_color_btn = instance
         self.selected_color = instance.hex_color
     
@@ -488,18 +516,25 @@ class CalendarApp(App):
         """Очищает все заметки (только текст заметок, цвета остаются)"""
         confirm_popup = Popup(
             title='Подтверждение',
-            size_hint=(0.7, 0.3)
+            size_hint=(0.7, 0.4)
         )
         
-        content = BoxLayout(orientation='vertical', padding=10, spacing=10)
+        content = BoxLayout(orientation='vertical', padding=dp(10), spacing=dp(10))
         
-        msg = Label(text="Удалить текст всех заметок?\nЦвета дней останутся.")
+        msg = Label(
+            text="Удалить текст всех заметок?\nЦвета дней останутся.",
+            font_size=dp(16)
+        )
         content.add_widget(msg)
         
-        btn_layout = BoxLayout(size_hint_y=0.4, spacing=10)
+        btn_layout = BoxLayout(size_hint_y=0.4, spacing=dp(10))
         
-        yes_btn = Button(text='Да', background_color=(0.9, 0.3, 0.3, 1))
-        no_btn = Button(text='Нет')
+        yes_btn = Button(
+            text='Да', 
+            background_color=(0.9, 0.3, 0.3, 1),
+            font_size=dp(16)
+        )
+        no_btn = Button(text='Нет', font_size=dp(16))
         
         def clear_notes(btn):
             for date_str in self.saved_data:
@@ -544,11 +579,11 @@ class CalendarApp(App):
             # Нет заметок
             no_notes_label = Label(
                 text="Нет сохраненных заметок\n\nСоздайте заметки во вкладке 'Календарь'",
-                font_size='16sp',
+                font_size=dp(18),
                 halign='center',
                 valign='middle',
                 size_hint_y=None,
-                height=200
+                height=dp(200)
             )
             no_notes_label.bind(size=no_notes_label.setter('text_size'))
             self.notes_container.add_widget(no_notes_label)
@@ -559,9 +594,9 @@ class CalendarApp(App):
                 note_card = BoxLayout(
                     orientation='vertical',
                     size_hint_y=None,
-                    height=100,
-                    padding=[10, 5, 10, 5],
-                    spacing=5
+                    height=dp(120),
+                    padding=[dp(10), dp(5), dp(10), dp(5)],
+                    spacing=dp(5)
                 )
                 
                 # Верхняя часть с датой и цветом
@@ -572,7 +607,7 @@ class CalendarApp(App):
                     background_normal='',
                     background_color=get_color_from_hex(color_hex),
                     size_hint_x=0.3,
-                    font_size='14sp',
+                    font_size=dp(16),
                     bold=True
                 )
                 
@@ -584,7 +619,7 @@ class CalendarApp(App):
                     text=note_text[:50] + ("..." if len(note_text) > 50 else ""),
                     size_hint_x=0.7,
                     halign='left',
-                    font_size='14sp'
+                    font_size=dp(16)
                 )
                 note_preview.bind(size=note_preview.setter('text_size'))
                 
@@ -598,7 +633,7 @@ class CalendarApp(App):
                     text=note_text,
                     halign='left',
                     valign='top',
-                    font_size='12sp'
+                    font_size=dp(14)
                 )
                 full_note.bind(size=full_note.setter('text_size'))
                 
@@ -606,7 +641,7 @@ class CalendarApp(App):
                 edit_btn = Button(
                     text='✎',
                     size_hint_x=0.1,
-                    font_size='16sp'
+                    font_size=dp(18)
                 )
                 edit_btn.date_str = f"{day_formatted[6:]}-{day_formatted[3:5]}-{day_formatted[:2]}"
                 edit_btn.note_text = note_text
@@ -619,7 +654,7 @@ class CalendarApp(App):
                 note_card.add_widget(bottom_part)
                 
                 # Разделитель
-                separator = BoxLayout(size_hint_y=None, height=1)
+                separator = BoxLayout(size_hint_y=None, height=dp(1))
                 separator.canvas.before.clear()
                 with separator.canvas.before:
                     from kivy.graphics import Color, Rectangle
@@ -666,5 +701,4 @@ if __name__ == '__main__':
         with open('calendar_data.json', 'w', encoding='utf-8') as f:
             json.dump({}, f)
     
-
     CalendarApp().run()
